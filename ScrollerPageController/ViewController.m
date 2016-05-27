@@ -9,12 +9,15 @@
 #import "ViewController.h"
 #import "MXYCScrollerPageViewController.h"
 #import "TestViewController.h"
+#import "MXYCPageViewController.h"
 
 @interface ViewController ()
 
 @property (retain, nonatomic) NSArray *testsTitles;
 
-@property (retain, nonatomic) MXYCScrollerPageViewController *scrollVC;
+@property (retain, nonatomic) MXYCPageViewController *scrollVC;
+
+
 
 @end
 
@@ -24,7 +27,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.testsTitles = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9"];
+    self.testsTitles = @[[MXYCScrollerTitleModel instanceWithTitle:@"1" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"2" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"3" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"4" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"5" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"6" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"7" data:nil],
+                         [MXYCScrollerTitleModel instanceWithTitle:@"8" data:nil]];
     
     
     
@@ -32,9 +42,11 @@
     MXYCScrollerPageDataCacheType testCacheType = kTestControlType;
     
     
+    self.scrollVC = [[MXYCPageViewController alloc] initPageCurlTypeWithCachType:testCacheType];
+    
+//    self.scrollVC = [[MXYCPageViewController alloc] initWithTitles:nil cacheType:testCacheType];
     
     
-    self.scrollVC = [[MXYCScrollerPageViewController alloc] initWithTitles:nil cacheType:testCacheType];
     
     [self.scrollVC setupWithGenerateBlock:^UIViewController *(NSInteger index) {
         
@@ -51,6 +63,8 @@
             {
                 viewController = [[TestViewController alloc] init];
             }
+            
+            viewController.optionalData = [NSString stringWithFormat:@"%zd", index];
             
 #   if kTestControlType == 2
             
@@ -87,9 +101,7 @@
     [self addChildViewController:_scrollVC];
     [self.view addSubview:_scrollVC.view];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [_scrollVC updateWithTitles:_testsTitles];
-    });
+    [_scrollVC updateWithTitles:_testsTitles];
     
     UIBarButtonItem *insertBarButton = [[UIBarButtonItem alloc] initWithTitle:@"插入"
                                                                         style:UIBarButtonItemStyleDone
@@ -99,11 +111,50 @@
                                                                        action:@selector(updatePages)];
     
     self.navigationItem.rightBarButtonItems = @[insertBarButton, updateBarButton];
+    
+    
+    
+    /*
+     使用方法，这样是缓存数据的。
+     
+    MXYCPageViewController *pageVC = [[MXYCPageViewController alloc] init];
+    [pageVC setupWithGenerateBlock:^UIViewController *(NSInteger index) {
+        if (index == 0)
+        {
+            // 假设第1个是首页
+            
+            UIViewController *viewController = [pageVC dequenceContentViewControllerWithIdentifier:@"homePage_identifier" atIndex:index];
+            
+            if (!viewController)
+            {
+                viewController = [[TestViewController alloc] init];
+            }
+            
+            return viewController;
+        }
+        
+        // 假设后面的都是正常的页面。
+        
+        UIViewController *viewController = [pageVC dequenceContentViewControllerWithIdentifier:@"normalPage_identifier" atIndex:index];
+        
+        if (!viewController)
+        {
+            viewController = [[TestViewController alloc] init];
+        }
+        
+        return viewController;
+    }];
+    pageVC.view.frame = CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height - 64);
+    [self addChildViewController:pageVC];
+    [self.view addSubview:pageVC.view];
+    
+    [pageVC updateWithTitles:@[@"t1", @"t2", @"t3", @"t4"]];
+     */
 }
 
 - (void)insertPage
 {
-    [self.scrollVC insertPageWithTitle:[NSString stringWithFormat:@"%zd", arc4random()] atIndex:self.scrollVC.currentPageIndex];
+    [self.scrollVC insertPageWithModel:[MXYCScrollerTitleModel instanceWithTitle:[NSString stringWithFormat:@"%zd", arc4random() % 1000] data:nil] atIndex:self.scrollVC.currentPageIndex];
 }
 
 - (void)updatePages

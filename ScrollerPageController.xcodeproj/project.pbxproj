@@ -16,7 +16,8 @@
 		1C5BA5601CEC3F8E004E5D76 /* MXYCScrollerPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5BA55F1CEC3F8E004E5D76 /* MXYCScrollerPageViewController.m */; };
 		1C5BA5641CEC4362004E5D76 /* MXYCScrollerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5BA5631CEC4362004E5D76 /* MXYCScrollerHeader.m */; };
 		1C9109EA1CED52A900199BF9 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9109E91CED52A900199BF9 /* TestViewController.m */; };
-		1C9109F11CEEAD4100199BF9 /* MXYCEmptyContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9109F01CEEAD4100199BF9 /* MXYCEmptyContentViewController.m */; };
+		1C9109F71CF2953A00199BF9 /* MXYCPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9109F61CF2953A00199BF9 /* MXYCPageViewController.m */; };
+		1C9109FA1CF3E98A00199BF9 /* MXYCScrollerTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C9109F91CF3E98A00199BF9 /* MXYCScrollerTitleModel.m */; };
 		99E29A731CEDF25800C3EE78 /* UIViewController+ReUseful.m in Sources */ = {isa = PBXBuildFile; fileRef = 99E29A721CEDF25800C3EE78 /* UIViewController+ReUseful.m */; };
 /* End PBXBuildFile section */
 
@@ -37,9 +38,11 @@
 		1C5BA5631CEC4362004E5D76 /* MXYCScrollerHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXYCScrollerHeader.m; sourceTree = "<group>"; };
 		1C9109E81CED52A900199BF9 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		1C9109E91CED52A900199BF9 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		1C9109EF1CEEAD4100199BF9 /* MXYCEmptyContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXYCEmptyContentViewController.h; sourceTree = "<group>"; };
-		1C9109F01CEEAD4100199BF9 /* MXYCEmptyContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXYCEmptyContentViewController.m; sourceTree = "<group>"; };
 		1C9109F21CEEE21E00199BF9 /* TestControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestControl.h; sourceTree = "<group>"; };
+		1C9109F51CF2953A00199BF9 /* MXYCPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXYCPageViewController.h; sourceTree = "<group>"; };
+		1C9109F61CF2953A00199BF9 /* MXYCPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXYCPageViewController.m; sourceTree = "<group>"; };
+		1C9109F81CF3E98A00199BF9 /* MXYCScrollerTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXYCScrollerTitleModel.h; sourceTree = "<group>"; };
+		1C9109F91CF3E98A00199BF9 /* MXYCScrollerTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MXYCScrollerTitleModel.m; sourceTree = "<group>"; };
 		99E29A711CEDF25800C3EE78 /* UIViewController+ReUseful.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ReUseful.h"; sourceTree = "<group>"; };
 		99E29A721CEDF25800C3EE78 /* UIViewController+ReUseful.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ReUseful.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -102,12 +105,14 @@
 		1C5BA55D1CEC3F79004E5D76 /* ScrollerPageController */ = {
 			isa = PBXGroup;
 			children = (
+				1C9109F51CF2953A00199BF9 /* MXYCPageViewController.h */,
+				1C9109F61CF2953A00199BF9 /* MXYCPageViewController.m */,
 				1C5BA55E1CEC3F8E004E5D76 /* MXYCScrollerPageViewController.h */,
 				1C5BA55F1CEC3F8E004E5D76 /* MXYCScrollerPageViewController.m */,
-				1C9109EF1CEEAD4100199BF9 /* MXYCEmptyContentViewController.h */,
-				1C9109F01CEEAD4100199BF9 /* MXYCEmptyContentViewController.m */,
 				99E29A711CEDF25800C3EE78 /* UIViewController+ReUseful.h */,
 				99E29A721CEDF25800C3EE78 /* UIViewController+ReUseful.m */,
+				1C9109F81CF3E98A00199BF9 /* MXYCScrollerTitleModel.h */,
+				1C9109F91CF3E98A00199BF9 /* MXYCScrollerTitleModel.m */,
 				1C5BA5611CEC434D004E5D76 /* _ChildViews */,
 			);
 			path = ScrollerPageController;
@@ -194,12 +199,13 @@
 			files = (
 				1C5BA5601CEC3F8E004E5D76 /* MXYCScrollerPageViewController.m in Sources */,
 				1C5BA54E1CEC3F5F004E5D76 /* ViewController.m in Sources */,
-				1C9109F11CEEAD4100199BF9 /* MXYCEmptyContentViewController.m in Sources */,
 				1C9109EA1CED52A900199BF9 /* TestViewController.m in Sources */,
 				99E29A731CEDF25800C3EE78 /* UIViewController+ReUseful.m in Sources */,
 				1C5BA5641CEC4362004E5D76 /* MXYCScrollerHeader.m in Sources */,
 				1C5BA54B1CEC3F5F004E5D76 /* AppDelegate.m in Sources */,
+				1C9109F71CF2953A00199BF9 /* MXYCPageViewController.m in Sources */,
 				1C5BA5481CEC3F5F004E5D76 /* main.m in Sources */,
+				1C9109FA1CF3E98A00199BF9 /* MXYCScrollerTitleModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

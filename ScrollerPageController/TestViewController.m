@@ -13,10 +13,6 @@
 <
 UITableViewDelegate,
 UITableViewDataSource
-#if kTestControlType == 2
-,
-MXYCContentViewReverseTriggerDelegate
-#endif
 >
 
 @property (retain, nonatomic) UITableView *table;
@@ -32,26 +28,13 @@ MXYCContentViewReverseTriggerDelegate
 
 #if kTestControlType == 2
 
-- (id)init
+- (void)triggerToRefreshWithCachedData:(id)cachedData originalTitleData:(MXYCScrollerTitleModel *)titleModel needRequestDataFromServer:(BOOL)need ofSuperScoller:(MXYCScrollerPageViewController *)scrollViewController
 {
-    self = [super init];
-    
-    if (self)
-    {
-        self.reverseTriggerDelegate = self;
-    }
-    
-    return self;
-}
-
-- (void)triggerToRefreshWithData:(NSDictionary *)data needRequestDataFromServer:(BOOL)need
-                  ofSuperScoller:(MXYCScrollerPageViewController *)scrollViewController
-{
-    if (data)
+    if (cachedData)
     {
         // 刷新页面
         
-        self.tempData = [data allValues];
+        self.tempData = [cachedData allValues];
         
         [self.table reloadData];
     }
@@ -98,11 +81,14 @@ MXYCContentViewReverseTriggerDelegate
     self.table.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:arc4random_uniform(100) / 100.0];
     self.table.delegate = self;
     self.table.dataSource = self;
+    self.table.contentInset = UIEdgeInsetsMake(64, 0, 12, 0);
+    self.table.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 12, 0);
     [self.view addSubview:self.table];
+    self.table.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     
-#if kTestControlType == 0
+#if kTestControlType <= 1
     
-    [self generateData];
+    [self generateAllData];
     
 #endif
 }
@@ -127,7 +113,7 @@ MXYCContentViewReverseTriggerDelegate
 {
     NSMutableArray *dataArr = [[NSMutableArray alloc] init];
     
-    for (NSInteger i = 0; i < arc4random_uniform(5) + 1; i ++)
+    for (NSInteger i = 0; i < arc4random_uniform(20) + 1; i ++)
     {
         CGFloat r = arc4random_uniform(255) / 255.0;
         CGFloat g = arc4random_uniform(255) / 255.0;
@@ -158,13 +144,26 @@ MXYCContentViewReverseTriggerDelegate
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reUsefulIdentifier"];
     }
     
-    cell.textLabel.text = self.optionalData;
     
     NSArray *array = self.tempData[indexPath.section];
     
-    cell.backgroundColor = (UIColor *)[array objectAtIndex:indexPath.row];
+    UIColor *color =  (UIColor *)[array objectAtIndex:indexPath.row];
+    
+    cell.backgroundColor = color;
+    
+    CGFloat r, g, b, a;
+    
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"R:%.2f - G:%.2f - B:%.2f", r * 255.0, g * 255.0, b * 255.0];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

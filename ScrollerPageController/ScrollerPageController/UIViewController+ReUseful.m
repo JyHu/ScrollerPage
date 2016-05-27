@@ -9,6 +9,9 @@
 #import "UIViewController+ReUseful.h"
 #import <objc/runtime.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wincomplete-implementation"
+
 @implementation UIViewController (ReUseful)
 
 const void *__reUsefulIdentifierKey = (void *)@"__reUsefulIdentifierKey";
@@ -54,18 +57,6 @@ const void *__uniquePageIdentifierKey = @"__uniquePageIdentifierKey";
     return NSNotFound;
 }
 
-const void *__reverseTriggerDelegateIdentifierKey = @"__reverseTriggerDelegateIdentifierKey";
-
-- (void)setReverseTriggerDelegate:(id<MXYCContentViewReverseTriggerDelegate>)reverseTriggerDelegate
-{
-    objc_setAssociatedObject(self, __reverseTriggerDelegateIdentifierKey, reverseTriggerDelegate, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (id<MXYCContentViewReverseTriggerDelegate>)reverseTriggerDelegate
-{
-    return objc_getAssociatedObject(self, __reverseTriggerDelegateIdentifierKey);
-}
-
 const void *__optionalDataIdentifierKey = (void *)@"__optionalDataIdentifierKey";
 
 - (void)setOptionalData:(id)optionalData
@@ -78,9 +69,8 @@ const void *__optionalDataIdentifierKey = (void *)@"__optionalDataIdentifierKey"
     return objc_getAssociatedObject(self, __optionalDataIdentifierKey);
 }
 
-- (void)triggerToRefreshWithData:(id)data needRequestDataFromServer:(BOOL)need
-{
-    
-}
 
 @end
+
+
+#pragma clang diagnostic pop

@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MXYCScrollerTitleModel.h"
 
 @class MXYCScrollerPageViewController;
 
-@protocol MXYCContentViewReverseTriggerDelegate <NSObject>
+@interface UIViewController (ReUseful)
 
-@required
+#pragma mark - 用来重写的方法，不能自己调用
+#pragma mark -
 
 /**
  *  @author JyHu, 16-05-20 13:05:01
@@ -25,9 +27,10 @@
  *
  *  @since 6.6.4
  */
-- (void)triggerToRefreshWithData:(id)data needRequestDataFromServer:(BOOL)need ofSuperScoller:(MXYCScrollerPageViewController *)scrollViewController;
-
-@optional
+- (void)triggerToRefreshWithCachedData:(id)cachedData
+                     originalTitleData:(MXYCScrollerTitleModel *)titleModel
+             needRequestDataFromServer:(BOOL)need
+                        ofSuperScoller:(MXYCScrollerPageViewController *)scrollViewController;
 
 /**
  *  @author JyHu, 16-05-20 13:05:11
@@ -43,28 +46,45 @@
  */
 - (void)contentViewControllerWillBeReusedForIndex:(NSInteger)index SuperScroller:(MXYCScrollerPageViewController *)scrollerViewController;
 
-@end
-
-@interface UIViewController (ReUseful)
+#pragma mark - 其他的参数
+#pragma mark -
 
 /**
- *  @author JyHu, 16-05-20 14:05:20
+ *  @author JyHu, 16-05-20 17:05:38
  *
- *  如果要缓存数据的话，必须要实现的代理
+ *  复用的标识，类似TableViewCell的identifier
  *
  *  @since 6.6.4
  */
-@property (weak, nonatomic) id<MXYCContentViewReverseTriggerDelegate> reverseTriggerDelegate;
-
-// 复用的标识，类似TableViewCell的identifier
 @property (retain, nonatomic) NSString *reUsefulIdentifier;
 
-// 缓存数据用的，因为每个页面都可能有很多个请求，所以用urlKey来标记每个接口请求到得数据
+/**
+ *  @author JyHu, 16-05-20 17:05:51
+ *
+ *  缓存数据用的，因为每个页面都可能有很多个请求，所以用urlKey来标记每个接口请求到得数据
+ *
+ *  @since 6.6.4
+ */
 @property (copy, nonatomic) void (^cacheMyData)(NSString *urlKey, id data);
 
-// 每个页面唯一的标记
+/**
+ *  @author JyHu, 16-05-20 17:05:16
+ *
+ *  每个页面唯一的标记，类似于tag，是根据每个页面的title的hash来算出来的
+ *
+ *  不用tag是因为当页面更新或插入的时候，页面的标记会乱掉。
+ *
+ *  @since 6.6.4
+ */
 @property (assign, nonatomic) NSUInteger uniquePageTag;
 
+/**
+ *  @author JyHu, 16-05-20 17:05:46
+ *
+ *  给每个页面额外添加的数据，在不同页面复用的时候可以进行使用
+ *
+ *  @since 6.6.4
+ */
 @property (assign, nonatomic) id optionalData;
 
 @end

@@ -1,54 +1,42 @@
 //
-//  MXYCScrollerPageViewController.h
+//  MXYCPageViewController.h
 //  ScrollerPageController
 //
-//  Created by 胡金友 on 16/5/18.
+//  Created by 胡金友 on 16/5/23.
 //  Copyright © 2016年 胡金友. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "UIViewController+ReUseful.h"
-#import "MXYCScrollerTitleModel.h"
-
-
+#import "MXYCScrollerPageViewController.h"
+#import "MXYCScrollerHeader.h"
 
 
 /*
  
- 分页滚动视图，可以单独拿出去用。
+ 这个类只是用作桥接的作用，将下部的滚动视图和上部的标签视图进行组合，并进行方法的传递，没有独立的方法。
  
- 设置了三种缓存数据的方式。
- 
- 页面会在设置 setupWithGenerateBlock: 后才开始布局。
- 
- 如果是不需要缓存，则只需要操作 MXYCScrollerPageViewController 就行了，当前的子视图中的数据存储及缓存都需要自己做。
- 
- 如果缓存页面，跟不缓存一个样，但是系统会把每个页面都默认的保存下来，等到再次滑动到已经显示过的页面的时候不需要再创建了，页面还会停止在之前的状态。
- 
- 如果缓存数据，则需要在子视图每次请求到网络数据的时候利用 cacheMyData block 将数据回传过来，用于缓存，并且需要在子视图里重写 `triggerToRefreshWithData:needRequestDataFromServer:ofSuperScoller:` 方法，这个方法是控制用来控制复用页面数据刷新用的。
+ 下部的滚动视图单独拿出来也可以使用。
  
  */
 
 
+@interface MXYCPageViewController : UIViewController
 
-
-
-typedef NS_ENUM(NSUInteger, MXYCScrollerPageDataCacheType) {
-    MXYCScrollerPageDataCacheTypeNoCache,       // 不需要缓存，每次滑动到的时候都要创建
-    MXYCScrollerPageDataCacheTypeCachePage,     // 缓存所有的页面
-    MXYCScrollerPageDataCacheTypeCacheData,     // 只缓存页面的数据
-};
-
-/*
- 
- 如何缓存异步的数据，不至于请求到得数据在页面复用的时候混乱 ？
- 
+/**
+ *  @author JyHu, 16-05-23 16:05:34
+ *
+ *  滚动视图
+ *
+ *  @since 6.6.4
  */
-
-@interface MXYCScrollerPageViewController : UIPageViewController
+@property (retain, nonatomic) MXYCScrollerPageViewController *scrollerPageVC;
 
 #pragma mark - 初始化方法，提供了三种，还有系统的两种方法都可以使用，可以任选一种。
 #pragma mark -
+
+- (id)initWithTransitionStyle:(UIPageViewControllerTransitionStyle)style
+        navigationOrientation:(UIPageViewControllerNavigationOrientation)navigationOrientation
+                      options:(NSDictionary<NSString *,id> *)options;
 
 /**
  *  @author JyHu, 16-05-19 17:05:14
@@ -107,6 +95,8 @@ typedef NS_ENUM(NSUInteger, MXYCScrollerPageDataCacheType) {
 - (void)setupWithGenerateBlock:(UIViewController * (^)(NSInteger index))generateBlock;
 
 #pragma mark - 下面的方法根据需求来选择的去调用
+
+//@property (assign, nonatomic) CGFloat correctHeight;
 
 /**
  *  @author JyHu, 16-05-20 12:05:49

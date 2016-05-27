@@ -7,17 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MXYCScrollerTitleModel.h"
 
 @interface MXYCScrollerHeader : UIView
 
-- (void)updateHeaderTitle:(NSString *)title atIndex:(NSInteger)index;
+- (void)setupTitles:(NSArray <MXYCScrollerTitleModel *> *)titles;
+
+- (void)insertHeaderTitleModel:(MXYCScrollerTitleModel *)titleModel atIndex:(NSInteger)index;
 
 - (void)scrollToIndex:(NSInteger)index;
 
-- (void)scrollToPreview;
-
-- (void)scrollToNext;
-
 @property (assign, nonatomic, readonly) NSInteger currentIndex;
+
+- (void)selectTitleComption:(void (^)(NSInteger index))selectComp;
 
 @end
